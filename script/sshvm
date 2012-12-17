@@ -8,17 +8,33 @@ print_help(){
   echo "========================="
 }
 
+get_current(){
+  curr=`readlink ~/.ssh`
+  if [ -n "$curr" ]
+  then
+    curr=`readlink ~/.ssh | xargs -l basename`
+  fi
+  echo "$curr"
+}
+
 print_list(){
   echo "List of available packages:\n"
+  curr=$(get_current)
   for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
   do
-    echo "   $dir"
+    if [ "$curr" -eq "$dir" ]; then
+      echo "=>  $dir"
+    else
+      echo "    $dir"
+    fi
   done
   echo "\n=> - current package"
 }
 
+
 case $1 in
-  "list") print_list;;
-  "help"|*) print_help ;;
+"list") print_list;;
+"current") v=$(get_current); echo "$v" ;;
+"help"|*) print_help ;;
 esac
 

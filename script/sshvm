@@ -8,8 +8,15 @@ print_help(){
   echo "========================="
 }
 
+print_list(){
+  for dir in `find ~/.sshvm/packages -maxdepth 1 -mindepth 1 -type d ` 
+  do
+    echo "$dir"
+  done
+}
+
 case $1 in
-  "list") echo "There will be a list of packages)" ;;
+  "list") print_list;;
   "help"|*) print_help ;;
 esac
 

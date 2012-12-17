@@ -9,10 +9,12 @@ print_help(){
 }
 
 print_list(){
+  echo "List of available packages:\n"
   for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
   do
-    echo "$dir"
+    echo "   $dir"
   done
+  echo "\n=> - current package"
 }
 
 case $1 in

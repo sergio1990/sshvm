@@ -1,0 +1,15 @@
+#!/bin/sh
+
+print_help(){
+  echo "========================="
+  echo "This is package manager for ssh keys!\n"
+  echo "Type the one of following commands:"
+  echo "sshvm list - listing the available packages"
+  echo "========================="
+}
+
+case $1 in
+  "list") echo "There will be a list of packages)" ;;
+  "help"|*) print_help ;;
+esac
+

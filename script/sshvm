@@ -9,7 +9,7 @@ print_help(){
 }
 
 print_list(){
-  for dir in `find ~/.sshvm/packages -maxdepth 1 -mindepth 1 -type d ` 
+  for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
   do
     echo "$dir"
   done

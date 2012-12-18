@@ -10,6 +10,7 @@ print_help(){
   echo "sshvm copy <from> <to> - copy keys from one package to another"
   echo "sshvm create <name> - create new empty package"
   echo "sshvm save <name> - save keys in current directory to new package"
+  echo "sshvm use <name> - select specified package as current"
   echo "========================="
 }
 
@@ -86,7 +87,7 @@ copy_package(){
     echo "You try to copy package into itself!"
     return
   fi
-  `cp -r ~/.sshvm/packages/${1} ~/.sshvm/packages/${2}`
+  `cp -r ~/.sshvm/packages/${1}/* ~/.sshvm/packages/${2}/`
   echo "Copy package succesfully!"
 }
 
@@ -118,7 +119,8 @@ use_package(){
     echo "The package with same name doesn't exists! Try another name!"
     return
   fi
-  `ln -s ~/.sshvm/packages/${1} ~/.ssh`
+  `rm -rf ~/.ssh2`
+  `ln -s ~/.sshvm/packages/${1} ~/.ssh2`
   echo "Package '$1' has already in use!"
 }
 

@@ -5,7 +5,20 @@ print_help(){
   echo "This is package manager for ssh keys!\n"
   echo "Type the one of following commands:"
   echo "sshvm list - listing the available packages"
+  echo "sshvm current - showing name of the current package"
+  echo "sshvm remove <name> - remove specified package"
   echo "========================="
+}
+
+exist_package(){
+  for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
+  do
+    if [ "${1}" = "${dir}" ]; then
+      echo "1"
+      return
+    fi
+  done
+  echo "0"
 }
 
 get_current(){
@@ -15,6 +28,15 @@ get_current(){
     curr=`readlink ~/.ssh2 | xargs -l basename`
   fi
   echo "$curr"
+}
+
+is_current(){
+  curr=$(get_current)
+  if [ "${1}" = "${curr}" ]; then
+    echo "1"
+    return
+  fi
+  echo "0"
 }
 
 print_list(){
@@ -31,10 +53,28 @@ print_list(){
   echo "\n=> - current package"
 }
 
+remove_package(){
+  exist=$(exist_package $1)
+  if [ "$exist" = "1" ]; then
+    echo "Package finded!"
+    is_cur=$(is_current $1)
+    if [ "${is_cur}" = "1" ]; then
+      echo "The package that you want to remove is currently in use!"
+      echo "Please free this package and try again."
+    else
+      `rm -rf ~/.sshvm/packages/${1}`
+      echo "Package removed succesfully!"
+    fi
+  else
+    echo "The specified package doesn't exist!"
+    echo "Try sshvm list to check package list!"
+  fi
+}
 
 case $1 in
 "list") print_list;;
 "current") v=$(get_current); echo "$v" ;;
+"remove") remove_package $2 ;;
 "help"|*) print_help ;;
 esac
 

@@ -109,7 +109,7 @@ save_to_package(){
   fi
   `mkdir ~/.sshvm/packages/${1}`
   echo "Package '$1' has successfully created!"
-  `cp -r ${PWD} ~/.sshvm/packages/${1}`
+  `cp -r ${PWD}/* ~/.sshvm/packages/${1}/`
   echo "Keys has successfully copied!"
 }
 

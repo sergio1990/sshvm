@@ -112,6 +112,16 @@ save_to_package(){
   echo "Keys has successfully copied!"
 }
 
+use_package(){
+  ex=$(exist_package $1)
+  if [ "$ex" = "0" ]; then
+    echo "The package with same name doesn't exists! Try another name!"
+    return
+  fi
+  `ln -s ~/.sshvm/packages/${1} ~/.ssh`
+  echo "Package '$1' has already in use!"
+}
+
 case $1 in
 "list") print_list;;
 "current") v=$(get_current); echo "$v" ;;
@@ -119,6 +129,7 @@ case $1 in
 "copy") copy_package $2 $3 ;;
 "create") create_package $2 ;;
 "save") save_to_package $2 ;;
+"use") use_package $2 ;;
 "test") echo $PWD ;;
 "help"|*) print_help ;;
 esac

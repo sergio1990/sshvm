@@ -26,10 +26,10 @@ exist_package(){
 }
 
 get_current(){
-  curr=`readlink ~/.ssh2`
+  curr=`readlink ~/.ssh`
   if [ -n "$curr" ]
   then
-    curr=`readlink ~/.ssh2 | xargs -l basename`
+    curr=`readlink ~/.ssh | xargs -l basename`
   fi
   echo "$curr"
 }
@@ -119,8 +119,8 @@ use_package(){
     echo "The package with same name doesn't exists! Try another name!"
     return
   fi
-  `rm -rf ~/.ssh2`
-  `ln -s ~/.sshvm/packages/${1} ~/.ssh2`
+  `rm -rf ~/.ssh`
+  `ln -s ~/.sshvm/packages/${1} ~/.ssh`
   echo "Package '$1' has already in use!"
 }
 

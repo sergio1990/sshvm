@@ -7,6 +7,7 @@ print_help(){
   echo "sshvm list - listing the available packages"
   echo "sshvm current - showing name of the current package"
   echo "sshvm remove <name> - remove specified package"
+  echo "sshvm copy <from> <to> - copy keys from one package to another"
   echo "========================="
 }
 
@@ -71,10 +72,27 @@ remove_package(){
   fi
 }
 
+copy_package(){
+  exFrom=$(exist_package $1)
+  exTo=$(exist_package $2)
+  if [ "$exFrom" = "0" -o "$exTo" = "0" ]; then
+    echo "Some of the specified packages doesn't exists!"
+    echo "Try sshvm list to check package list!"
+    return
+  fi
+  if [ "$1" = "$2" ]; then
+    echo "You try to copy package into itself!"
+    return
+  fi
+  `cp -r ~/.sshvm/packages/${1} ~/.sshvm/packages/${2}`
+  echo "Copy package succesfully!"
+}
+
 case $1 in
 "list") print_list;;
 "current") v=$(get_current); echo "$v" ;;
 "remove") remove_package $2 ;;
+"copy") copy_package $2 $3 ;;
 "help"|*) print_help ;;
 esac
 

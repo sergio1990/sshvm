@@ -8,6 +8,7 @@ print_help(){
   echo "sshvm current - showing name of the current package"
   echo "sshvm remove <name> - remove specified package"
   echo "sshvm copy <from> <to> - copy keys from one package to another"
+  echo "sshvm create <name> - create new empty package"
   echo "========================="
 }
 
@@ -88,11 +89,22 @@ copy_package(){
   echo "Copy package succesfully!"
 }
 
+create_package(){
+  ex=$(exist_package $1)
+  if [ "$ex" = "1" ]; then
+    echo "The package with same name already exists! Try another name!"
+    return
+  fi
+  `mkdir ~/.sshvm/packages/${1}`
+  echo "Package '$1' has successfully created!"
+}
+
 case $1 in
 "list") print_list;;
 "current") v=$(get_current); echo "$v" ;;
 "remove") remove_package $2 ;;
 "copy") copy_package $2 $3 ;;
+"create") create_package $2 ;;
 "help"|*) print_help ;;
 esac
 

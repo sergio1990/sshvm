@@ -9,10 +9,10 @@ print_help(){
 }
 
 get_current(){
-  curr=`readlink ~/.ssh`
+  curr=`readlink ~/.ssh2`
   if [ -n "$curr" ]
   then
-    curr=`readlink ~/.ssh | xargs -l basename`
+    curr=`readlink ~/.ssh2 | xargs -l basename`
   fi
   echo "$curr"
 }
@@ -22,7 +22,7 @@ print_list(){
   curr=$(get_current)
   for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
   do
-    if [ "$curr" -eq "$dir" ]; then
+    if [ "${curr}" = "${dir}" ]; then
       echo "=>  $dir"
     else
       echo "    $dir"

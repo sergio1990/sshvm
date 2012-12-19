@@ -15,7 +15,7 @@ print_help(){
 }
 
 exist_package(){
-  for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
+  for dir in `find ~/.sshvm/packages/* -maxdepth 1 -type d | xargs -l basename` 
   do
     if [ "${1}" = "${dir}" ]; then
       echo "1"
@@ -46,7 +46,7 @@ is_current(){
 print_list(){
   echo "List of available packages:\n"
   curr=$(get_current)
-  for dir in `ls -d ~/.sshvm/packages/* | xargs -l basename` 
+  for dir in `find ~/.sshvm/packages/* -maxdepth 1 -type d | xargs -l basename` 
   do
     if [ "${curr}" = "${dir}" ]; then
       echo "=>  $dir"
